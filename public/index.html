@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	</head>
+
+	<style>
+		body {
+			padding: 5%;
+		}
+
+		h1, h3, h4, h5 {
+			font-family: HelveticaNeue-Light;
+		}
+
+		img {
+			height: 150px;
+			padding: 20px;
+			background-color: #DDD;
+		}
+
+		th {
+			width: 150px;
+			text-align: center;
+			font-size: 20px;
+		}
+
+		td{
+			width: 150px;
+			border: 1px solid black;
+			text-align: center;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			font-size: 20px;
+		}
+
+	</style>
+
+	<script>
+		$(document).ready(function() {
+
+			var arr = [];
+			var sort = false;
+
+			var str = '';
+setInterval(function() {
+			$.ajax({
+				url: "/scrap",
+				type: "GET",
+				success: function(json) {
+
+					function sorting (a, b){
+
+						var numberPattern = /\d+/g;
+
+					var c = Number(a[3].match(numberPattern).join(""));
+					var d = Number(b[3].match(numberPattern).join(""));
+
+						if(c == d){
+							return 0;
+						}else {
+							return (c < d) ? -1 : 1;
+						}
+
+					}
+
+					json.a.sort(sorting);
+
+					if(sort){
+						json.a.reverse();
+					}
+
+					arr = json.a;
+					str = "";
+					for(var i = 0; i < json.a.length; i++){
+						str += "<tr><td>" +
+						json.a[i][0] + "</td><td>" +
+						json.a[i][1] + "</td><td>" +
+						json.a[i][2] + "</td><td>" +
+						json.a[i][3] + "</td></tr>";
+
+					}
+					$("#table").html(str);
+
+					$("#time").html(json.b);
+
+				}
+			});
+		}, 5000);
+
+		$("#sort").on("click", function(){
+
+			if(sort){
+				sort = false;
+			} else{
+				sort = true;
+			}
+
+			arr.reverse();
+
+			str = "";
+			for(var i = 0; i < arr.length; i++){
+				str += "<tr><td>" +
+				arr[i][0] + "</td><td>" +
+				arr[i][1] + "</td><td>" +
+				arr[i][2] + "</td><td>" +
+				arr[i][3] + "</td></tr>";
+
+			}
+			$("#table").html(str);
+
+		});
+
+		});
+	</script>
+
+	<body align='middle'>
+		<h1></h1><br>
+		<h1>Arthur Ashe Stadium</h1><br>
+		<h3>Please wait until we fetch data for this team...</h3>
+		<h4>Last update: <span style="color: crimson" id="time">--:--:-- --/--/----</span></h4><br>
+		<div align="middle">
+			<table border="1">
+				<thead>
+					<tr>
+						<th>Section</th>
+						<th>Row</th>
+						<th>Seat</th>
+						<th>Plan Price<button id='sort'><i class='fa fa-arrows-v'></i></button></th>
+					</tr>
+				</thead>
+			</table> <br>
+			<table>
+				<tr id='table'>
+
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

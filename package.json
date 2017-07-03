@@ -1,0 +1,21 @@
+{
+  "name": "usopen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cron": "^1.2.1",
+    "express": "^4.15.3",
+    "moment": "^2.18.1",
+    "mongoose": "^4.10.5",
+    "selenium-webdriver": "^3.4.0",
+    "sendgrid": "^5.1.1",
+    "x-ray": "^2.3.2"
+  }
+}
